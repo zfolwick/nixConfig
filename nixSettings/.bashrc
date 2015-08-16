@@ -21,4 +21,7 @@ PS1="\[$Red\]\t\[$NoColor\]-\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
 
 # User specific aliases and functions
 
-
+#alias definitions
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
