@@ -11,6 +11,7 @@ set nobackup
 set wrap
 set hidden
 syntax on
+set mouse=a
 
 "colors
 color desert
