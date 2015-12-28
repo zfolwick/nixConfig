@@ -1,3 +1,7 @@
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
 "basic settings
 set number
 set nocp
@@ -21,3 +25,7 @@ imap jj <esc>
 
 " set nice paste mode
 set pastetoggle=<f11>
+
+" add visible whitespace
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set list
