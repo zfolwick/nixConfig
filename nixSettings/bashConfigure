@@ -9,12 +9,12 @@ apt-get upgrade -y
 # now the packages repo is up to date, begin installing programs:
 
 apt-get install -y git \
-				   vim \
-				   emacs \
-				   curl \
-				   tmux \
-				   silversearcher-ag \
-				   docker \
+                   vim \
+                   emacs \
+                   curl \
+                   tmux \
+                   silversearcher-ag \
+                   docker \
 
 # now that git is installed, begin bringing in config files.
 
