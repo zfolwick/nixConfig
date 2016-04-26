@@ -10,7 +10,7 @@ fi
 
 NoColor="\e[0m"
 Red="\e[0;31m"
-Blue="\e[0;34m"
+Blue="\e[1;34m"
 Yellow="\e[0;33m"
 Green="\e[0;32m"
 PS1="\[$Red\]\t\[$NoColor\]-\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
