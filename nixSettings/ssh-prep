@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# The purpose of this script is to prepare a machine for a user to be able to ssh into a comfortable bash enviroment.  
+# It scp's the user's .bashrc, .bash_aliases, .vimrc, and .vim directory to the target machine at the target folder.
+# 
+# Usage:
+#    ssh-prep machine-1.super.awesome.machine /home/zfolwick
+# The target machine will now have the expected bash profile and vim configuration.
+
+args=("$@")
+
+config_files=".bashrc .bash_alias .vimrc .vim"
+
+for $i in config_files; do
+	scp -r $i args[0] args[1]
+done
