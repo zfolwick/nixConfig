@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/zfolwick/hgtutorial/rds-test-auth/src/test/java'
+let g:netrw_dirhist_2='/home/zfolwick/hgtutorial/rds-test-auth/src/test/java/rhapsody'
+let g:netrw_dirhist_3='/home/zfolwick/hgtutorial/rds-test-auth/src/test/java/rhapsody/qa'
+let g:netrw_dirhist_4='/home/zfolwick/hgtutorial/rds-test-auth/src/test/java/rhapsody/qa/auth'
+let g:netrw_dirhist_5='/home/zfolwick/hgtutorial/rds-test-auth/src/test/java/rhapsody/qa/auth/utils'
+let g:netrw_dirhist_6='/home/zfolwick/hgtutorial/server_config'
+let g:netrw_dirhist_7='/home/zfolwick/perl/helloWorlds'
+let g:netrw_dirhist_8='/home/zfolwick/Documents/scripts'

@@ -9,8 +9,11 @@
 
 args=("$@")
 
-config_files=".bashrc .bash_alias .vimrc .vim"
+target_machine=${args[0]}
+target_directory=${args[1]}
 
-for $i in config_files; do
-	scp -r $i args[0] args[1]
+config_files=".bashrc .bash_aliases .vimrc .vim"
+
+for i in $config_files; do
+	scp -r $i $target_machine":"$target_directory
 done
