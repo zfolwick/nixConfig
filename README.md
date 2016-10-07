@@ -1,5 +1,10 @@
 # nixConfig
 Linux Configuration files
-Clone this into a folder `~/git/` and then run `sudo ./bashConfigure` from the `/nixSettings` folder, sit back, and enjoy.
+Clone this into a folder `~/git/` and then run `sudo ./git/nixConfig/bashConfigure`, sit back, and enjoy.
 
-You get: htop, tmux, vim, emacs24, silversearcher-ag (faster grep), an automatic update/upgrade package, better bashrc and git integration, and some reasonable configurations for the above.
+You get: htop, tmux, vim, emacs24, silversearcher-ag (faster grep), docker, better bashrc with git integration, and some reasonable configurations for the above.  Additionally, this assumes Ubuntu, so it installs the much lighter weight metacity, and gnome-session-flashback, which will allow you to choose your desktop environment upon startup.
+
+## Prerequisites
+
+Ubuntu 14.04+  
+git
