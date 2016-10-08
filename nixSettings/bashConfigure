@@ -3,12 +3,15 @@
 # This is an initial script to automate the acquisition of software.
 # It assumes the apt-get package manager is installed, and the script is run under sudo
 
-apt-get update -y
-apt-get upgrade -y
+add-apt-repository universe
+
+apt-get update
+apt-get upgrade
 
 # now the packages repo is up to date, begin installing programs:
 
-apt-get install -y git \
+apt-get install -y htop \
+				   tree \
 				   vim \
 				   emacs \
 				   curl \
@@ -17,11 +20,11 @@ apt-get install -y git \
 				   docker \
 				   gnome-session-flashback \
 				   metacity \
+				   eclipse \
+				   gcc \
+				   g++
 
 # now that git is installed, begin bringing in config files.
-
-# Make a git folder and clone the nix settings repo:
-mkdir ~/git && git clone -b master https://github.com/zfolwick/nixConfig.git
 
 # Copy all the configuration files to the home directory
 cp ~/git/nixConfig/nixSettings/.bashrc ~/
