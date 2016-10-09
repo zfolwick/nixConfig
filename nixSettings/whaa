@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# A bash script to be run on new servers to tell you who the user is, what the current working directory.
-# it is recommended that you alias whaa=<path>/whaa.sh
-
-whoami
-
-pwd

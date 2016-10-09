@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# This is an initial script to automate the acquisition of software.
+# It assumes the apt-get package manager is installed, and the script is run under sudo
+
+add-apt-repository universe
+
+apt-get update
+apt-get upgrade
+
+# now the packages repo is up to date, begin installing programs:
+
+apt-get install -y htop \
+				   tree \
+				   vim \
+				   emacs \
+				   curl \
+				   tmux \
+				   silversearcher-ag \
+				   docker \
+				   gnome-session-flashback \
+				   metacity \
+				   eclipse \
+				   gcc \
+				   g++
+
+# now that git is installed, begin bringing in config files.
+
+# untar all the configuration files to the home directory
+tar -xvf config.files.tar -C /home/zach/
+
+# Unpack and copy config files over to ~/ directory
+
+## Vim
+# Get Pathogen:
+mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+
+# Configure the keyboard: 
+# 1. swap the caps lock with control keys - Source: www.noah.org/wike/CapsLock_Remap: this is accomplished in the bashrc file
+# 2. turn the right shift key into a forward delete key
+
+
+. ~/.bashrc
