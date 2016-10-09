@@ -27,11 +27,7 @@ apt-get install -y htop \
 # now that git is installed, begin bringing in config files.
 
 # untar all the configuration files to the home directory
-<<<<<<< HEAD:bashConfigure
 tar -xvf config.files.tar -C /home/zach/
-=======
-tar -xvf -C ~/
->>>>>>> 48af226bfa1836cb65a1151877c7cd239bab3878:bashConfigure
 
 # Unpack and copy config files over to ~/ directory
 
