@@ -7,5 +7,5 @@ You get: htop, tmux, vim, emacs24, silversearcher-ag (faster grep), docker, bett
 ## Prerequisites
 
 Ubuntu 14.04+  
-git
+git  
 a package manager: apt-get, yum, or apt-cyg
