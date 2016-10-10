@@ -1,28 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This is an initial script to automate the acquisition of software.
-# It assumes the apt-get package manager is installed, and the script is run under sudo
 
-add-apt-repository universe
+#function to check if program is installed
+function is_installed () {
+    type "$1" &> /dev/null;
+}
 
-apt-get update
-apt-get upgrade
+# Figure out the package manager.
+if is_installed apt-get;
+then
+    pkg_mgr=apt-get
+    add-apt-repository universe
+
+elif is_installed rpm;
+then
+    pkg_mgr=yum
+    rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+
+elif is_installed apt-cyg;
+then
+    pkg_mgr=apt-cyg
+
+fi
+
+
+${pkg_mgr} update
+${pkg_mgr} upgrade
 
 # now the packages repo is up to date, begin installing programs:
 
-apt-get install -y htop \
-				   tree \
-				   vim \
-				   emacs \
-				   curl \
-				   tmux \
-				   silversearcher-ag \
-				   docker \
-				   gnome-session-flashback \
-				   metacity \
-				   eclipse \
-				   gcc \
-				   g++
+${pkg_mgr} install -y htop \
+                      tree \
+                      vim \
+                      emacs \
+                      curl \
+                      tmux \
+                      silversearcher-ag \
+                      docker \
+                      gnome-session-flashback \
+                      metacity \
+                      eclipse \
+                      gcc \
+                      g++
 
 # now that git is installed, begin bringing in config files.
 
@@ -41,4 +61,4 @@ curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 # 2. turn the right shift key into a forward delete key
 
 
-. ~/.bashrc
+source ~/.bashrc
