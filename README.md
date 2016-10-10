@@ -8,4 +8,4 @@ You get: htop, tmux, vim, emacs24, silversearcher-ag (faster grep), docker, bett
 
 Ubuntu 14.04+  
 git
-apt-get, yum, or apt-cyg.
+a package manager: apt-get, yum, or apt-cyg
