@@ -3,27 +3,44 @@
 # This is an initial script to automate the acquisition of software.
 # It assumes the apt-get package manager is installed, and the script is run under sudo
 
-add-apt-repository universe
-
-apt-get update
-apt-get upgrade
+# add-apt-repository universe
+# 
+# apt-get update
+# apt-get upgrade
 
 # now the packages repo is up to date, begin installing programs:
 
-apt-get install -y htop \
-				   tree \
-				   vim \
-				   emacs \
-				   curl \
-				   tmux \
-				   silversearcher-ag \
-				   docker \
-				   gnome-session-flashback \
-				   metacity \
-				   eclipse \
-				   gcc \
-				   g++
+if [[ $(uname) -eq "Darwin" ]]; then
+    echo "DARWIN WINS!"
+    echo "install homebrew"
+    # Check for Homebrew, install if we don't have it
+    if test ! $(which brew); then
+      echo "Installing homebrew..."
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
 
+    # Update homebrew recipes
+    brew update
+
+    # install some goodies
+    brew install vim emacs curl tmux tree
+
+else
+  echo "tis but a nix"
+  apt-get install -y htop \
+               tree \
+               vim \
+               emacs \
+               curl \
+               tmux \
+               silversearcher-ag \
+               docker \
+               gnome-session-flashback \
+               metacity \
+               eclipse \
+               gcc \
+               g++
+fi
 # now that git is installed, begin bringing in config files.
 
 # untar all the configuration files to the home directory
