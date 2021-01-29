@@ -23,7 +23,7 @@ if [[ $(uname) -eq "Darwin" ]]; then
     brew update
 
     # install some goodies
-    brew install vim emacs curl tmux tree
+    brew install vim emacs curl tmux tree tldr
 
 else
   echo "tis but a nix"
