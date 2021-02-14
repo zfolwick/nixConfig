@@ -3,10 +3,12 @@ syntax on
 filetype plugin indent on
 
 "basic settings
+set tabstop=4
+set shiftwidth=4
+set expandtab
 set number
 set nocp
 set ls=2
-set ts=4
 set ruler
 set ignorecase
 set modeline
