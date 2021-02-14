@@ -42,8 +42,8 @@
 
 ;;;
 ;; Evil-mode specific
-;;(require 'evil)
-;;(evil-mode 1)
+(require 'evil)
+(evil-mode 1)
 
 (define-key evil-normal-state-map "\C-q" 'evil-visual-block)
 ;;Exit insert mode by pressing j and then j quickly
