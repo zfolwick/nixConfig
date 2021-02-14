@@ -13,7 +13,7 @@ Red="\e[0;31m"
 Blue="\e[1;34m"
 Yellow="\e[0;33m"
 Green="\e[0;32m"
-PS1="\[$Red\]\t\[$NoColor\]-\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
+PS1="\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
 
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
@@ -26,4 +26,3 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-setxkbmap -option ctrl:swapcaps
