@@ -8,7 +8,7 @@
 (menu-bar-mode -1)
 (setq visible-bell t)
 (load-theme 'tango-dark)
-(global-set-key (kbd "<escape>") 'keyboard-escape-quite)
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;;;
 ;; emacs diff editor
@@ -129,7 +129,7 @@
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+        doom-themes-enable-italic t)) ; if nil, italics is universally disabled
 
 ;;;
 ;; Programming
