@@ -2,6 +2,10 @@ function ch {
   builtin cd "$@" && ls
 }
 
+function mkd {
+  mkdir -pv "$@" && cd "$@"
+}
+
 alias u='cd .. && ls'
 alias uu='cd ../.. && ls'
 alias uuu='cd ../../.. && ls'
@@ -51,6 +55,32 @@ function e {
     emacs "$@"
 }
 
+UNAME=$( command -v uname)
 
-export WHOME="/mnt/c/Users/zfolw/"
+case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
+    linux*)
+  printf 'linux\n'
+    ;;
+  darwin*)
+  printf 'darwin\n'
+  # macOS OSX
+    function tree {
+      /usr/local/bin/tree -shC
+    }
+    ;;
+  msys*|cygwin*|mingw*)
+  # or possible 'bash on windows'
+  printf 'windows\n'
+    ;;
+  nt|win*)
+    printf 'windows\n'
+    # ubuntu via WSL Windows Subsystem for Linux
+    export WHOME="/mnt/c/Users/zfolw/"
+    ;;
+  *)
+  printf 'unknown\n'
+    ;;
+esac
+
+
 export EDITOR="vim"  # for ctrl-x ctrl-e

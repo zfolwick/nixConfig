@@ -25,4 +25,6 @@ PS1="\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+clear
+echo $(curl -s -H "Accept: application/json" https://icanhazdadjoke.com | jq .joke)
 
