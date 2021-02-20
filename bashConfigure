@@ -46,7 +46,7 @@ function install {
                  curl \
                  tmux \
                  silversearcher-ag \
-                 docker \
+                 docker.io \
                  gcc \
                  g++ \
                  tig \
