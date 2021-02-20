@@ -8,6 +8,9 @@ fi
 # Load in the git branch prompt script.
 . ~/.git-prompt.sh
 
+# Load better file navigation using z.sh.
+. ./z.sh
+
 NoColor="\e[0m"
 Red="\e[0;31m"
 Blue="\e[1;34m"

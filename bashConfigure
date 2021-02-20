@@ -1,53 +1,97 @@
 #!/bin/bash
 
 # This is an initial script to automate the acquisition of software.
-# It assumes the apt-get package manager is installed, and the script is run under sudo
 
+# usage: $> sudo ./bashConfigure <--- install, copy, and source dotfiles
+# $> sudo ./bashConfigure install <--- install only the packages
+# $> sudo ./bashConfigure copy <--- copy dotfiles
+# $> sudo ./bashConfigure source <--- source dotfiles
 # add-apt-repository universe
-# 
-# apt-get update
-# apt-get upgrade
 
 # now the packages repo is up to date, begin installing programs:
 
-if [[ $(uname) -eq "Darwin" ]]; then
-    echo "DARWIN WINS!"
-    echo "install homebrew"
-    # Check for Homebrew, install if we don't have it
-    if test ! $(which brew); then
-      echo "Installing homebrew..."
-      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
+function install {
+  if [[ $(uname) == "Darwin" ]]; then
+      echo "DARWIN WINS!"
+      echo "install homebrew"
+      # Check for Homebrew, install if we don't have it
+      if test ! $(which brew); then
+        echo "Installing homebrew..."
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      fi
 
-    # Update homebrew recipes
-    brew update
+      # Update homebrew recipes
+      brew update
 
-    # install some goodies
-    brew install vim emacs curl tmux tree tldr
+      # install some goodies
+      brew install vim \
+          emacs \
+          curl \
+          tmux \
+          tree \
+          tldr \
+          the_silver_searcher \
+          jq \
+          tig \
+          docker
 
-else
-  echo "tis but a nix"
-  apt-get install -y htop \
-               tree \
-               vim \
-               emacs \
-               curl \
-               tmux \
-               silversearcher-ag \
-               docker \
-               gnome-session-flashback \
-               metacity \
-               eclipse \
-               gcc \
-               g++
-fi
+  else
+    echo "tis but a nix"
+    apt-get update -y
+    apt-get upgrade -y
+    apt-get install -y htop \
+                 tree \
+                 vim \
+                 emacs \
+                 curl \
+                 tmux \
+                 silversearcher-ag \
+                 docker \
+                 gcc \
+                 g++ \
+                 tig \
+                 jq
+
+  fi
+  #install z-script for better managing
+  wget https://raw.githubusercontent.com/rupa/z/master/z.sh
+}
+
 # now that git is installed, begin bringing in config files.
 
-# Copy config files over to ~/ directory
-cp .* ~/
-## Vim
-# Get Pathogen:
-mkdir -p ~/.vim/autoload ~/.vim/bundle && \
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+copy_dotfiles() {
+  # Copy config files over to ~/ directory
+  # use symlinks because we can source easier
+  ln -svrf .bash* ~/
+  ln -svrf .tmux ~/
+  ln -svrf .emacs.d ~/
+  ln -svrf .vim ~/
+  ln -svrf .vimrc ~/
+  ln -svrf .tmux.conf ~/
+  ln -svrf .git-prompt.sh ~/
+  
+  ## Vim
+  if [ -d ~/.vim/autoload ] && [ -d ~/.vim/bundle ]; then
+    # Get Pathogen:
+    mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+    curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+  fi
+}
 
-. ~/.bashrc
+if [[ $1 == "install" || -z $1 ]]; then
+  install
+
+fi
+
+if [[ $1 == "copy" || -z $1 ]]; then
+  copy_dotfiles
+fi
+
+if [[ $1 == "source" || -z $1 ]]; then
+  source ~/.bashrc
+fi
+
+if [[ $1 == "cs" ]]; then
+  copy_dotfiles
+  source ~/.bashrc
+fi

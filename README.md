@@ -8,4 +8,11 @@ You get: htop, tmux, vim, emacs24, silversearcher-ag (faster grep), docker, bett
 
 Ubuntu 14.04+  
 git  
-a package manager: apt-get, yum, or [apt-cyg](https://github.com/transcode-open/apt-cyg)
+a package manager: apt-get, [apt-cyg](https://github.com/transcode-open/apt-cyg).  If on a mac, then homebrew shall be installed for you.
+
+## Other commands
+
+`sudo ./bashConfigure install` re-installs everything
+`sudo ./bashConfigure copy` creates symbolic links on your $HOME directory to the dotfiles
+`sudo ./bashConfigure source` re-sources your dotfiles
+`sudo ./bashConfigure cs` copies and sources your dotfiles
