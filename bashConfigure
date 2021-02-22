@@ -23,8 +23,12 @@ if [[ $(uname) -eq "Darwin" ]]; then
     brew update
 
     # install some goodies
-    brew install vim emacs curl tmux tree tldr
-
+    brew install vim emacs \ # why the hell arent these standard by now?
+	 curl \ # should be a coreutil by now
+	 tmux \ # terminal multiplexer
+	 tree \ # better ls
+	 tldr \ # less boring, quicker help
+	 z    \ # quicker file nav
 else
   echo "tis but a nix"
   apt-get install -y htop \
