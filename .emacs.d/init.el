@@ -1,5 +1,5 @@
-;;;
 ;; Startup
+;;;
 (setq inhibit-startup-message t)
 (setq initial-scratch-message "")
 (setq show-trailing-whitespace t)
@@ -7,8 +7,15 @@
 ;; appearance
 (menu-bar-mode -1)
 (setq visible-bell t)
-(load-theme 'tango-dark)
+;; gui emacs prep
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "C-M-j") 'counsel-switch-buffer)
+(global-set-key (kbd "C-M-s") 'shell)  ; make yourself a shell!!
+
+(define-key emacs-lisp-mode-map (kbd "C-x M-t") 'counsel-load-theme)
 
 ;;;
 ;; emacs diff editor
@@ -19,14 +26,8 @@
 
     (add-to-list 'command-switch-alist '("diff" . command-line-diff))
 
-;; emacs -diff file1 file2
+; emacs -diff file1 file2
 
-;;;
-;; Appearance
-;;(add-hook 'after-init-hook 
-;;      (lambda () (load-theme 'cyberpunk t)))
-
-;;;
 ;; Package Initialization
 (require 'package)
 
@@ -70,10 +71,8 @@
   :config
   (ivy-mode 1))
 
-;;;
 ;; vim keybindings
 (use-package evil)
-;;(require 'evil)
 (evil-mode 1)
 ;(define-key evil-normal-state-map "\C-q" 'evil-visual-block)
 ;;Exit insert mode by pressing j and then j quickly
@@ -125,13 +124,22 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
-  
-(use-package doom-themes
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t)) ; if nil, italics is universally disabled
 
+(use-package all-the-icons)
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+
+(use-package doom-themes
+  :init (load-theme 'doom-dracula t))
+
+(use-package general)
+
+(general-define-key
+; "M-x" 'amx
+ "C-s" 'counsel-grep-or-swiper)
+
+(use-package image+)
 ;;;
 ;; Programming
 (custom-set-variables
