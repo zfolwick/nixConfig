@@ -140,6 +140,14 @@
  "C-s" 'counsel-grep-or-swiper)
 
 (use-package image+)
+
+;; java autocomplete
+(use-package company)
+(global-company-mode t)
+(use-package company-emacs-eclim)
+(company-emacs-eclim-setup)
+(define-key eclim-mode-map (kbd "C-c C-c") 'eclim-problems-correct)
+
 ;;;
 ;; Programming
 (custom-set-variables
@@ -148,8 +156,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (helpful counsel ivy-rich which-key rainbow-delimiters doom-modeline evil swiper ivy use-package))))
+   '(company-emacs-eclim company helpful counsel ivy-rich which-key rainbow-delimiters doom-modeline evil swiper ivy use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

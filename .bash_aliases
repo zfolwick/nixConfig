@@ -10,7 +10,11 @@ alias u='cd .. && ls'
 alias uu='cd ../.. && ls'
 alias uuu='cd ../../.. && ls'
 alias uuuu='cd ../../../.. && ls'
-alias ls='ls --color=auto'
+if [[ $(uname) ==  "Darwin" ]]; then
+  alias ls='ls -G'
+else
+  alias ls='ls --color=auto'
+fi
 alias ll='ls -a'
 alias grep='grep --color -n'
 

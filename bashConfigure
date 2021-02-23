@@ -63,14 +63,23 @@ function install {
 copy_dotfiles() {
   # Copy config files over to ~/ directory
   # use symlinks because we can source easier
-  ln -svrf .bash* ~/
-  ln -svrf .tmux ~/
-  ln -svrf .emacs.d ~/
-  ln -svrf .vim ~/
-  ln -svrf .vimrc ~/
-  ln -svrf .tmux.conf ~/
-  ln -svrf .git-prompt.sh ~/
-  
+  if [[ $(uname) == "Darwin" ]]; then
+    ln -svf $(PWD)/.bash* ~/
+    ln -svf $(PWD)/.tmux ~/
+    ln -svf $(PWD)/.emacs.d ~/
+    ln -svf $(PWD)/.vim ~/
+    ln -svf $(PWD)/.vimrc ~/
+    ln -svf $(PWD)/.tmux.conf ~/
+    ln -svf $(PWD)/.git-prompt.sh ~/
+  else
+    ln -svrf .bash* ~/
+    ln -svrf .tmux ~/
+    ln -svrf .emacs.d ~/
+    ln -svrf .vim ~/
+    ln -svrf .vimrc ~/
+    ln -svrf .tmux.conf ~/
+    ln -svrf .git-prompt.sh ~/
+  fi
   ## Vim
   if [ -d ~/.vim/autoload ] && [ -d ~/.vim/bundle ]; then
     # Get Pathogen:
