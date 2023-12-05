@@ -10,9 +10,17 @@ try:
 except:
   print("Missing arguments! Expecting something to follow \n")
 
+# godo.sh [ --duration | -d ] : says duration
+# godo.sh [ --exit-code | -e ] : says exit code
+# godo.sh [no-args] : says "done"
 allArgs = sys.argv
 
-commandArgs = allArgs.pop(0)
+godoCommand = allArgs.pop(0)
+
+duration = False
+exitCode = False
+doneMessage = "done."
+
 
 startTime = time.time()
 proc = subprocess.run(' '.join(allArgs), shell=True)
@@ -26,7 +34,10 @@ if elapsedTime > 60:
 else:
   elapsedTimeString = f"{elapsedTime: .1f} seconds"
 
-os.system("osascript -e 'display notification \"done with " + allArgs.pop(0) + "!\" with title \"command compled\"'")
+argument = allArgs.pop(0)
+os.system("osascript -e 'display notification \"done with " + argument + "!\" with title \"command compled\"'")
 
-os.system("say done, sir. It took " + elapsedTimeString + " and exit code is " + str(proc.returncode))
+doneMessage += "It took " + elapsedTimeString + " and exit code is " + str(proc.returncode)
+
+os.system("say " + doneMessage)
 
