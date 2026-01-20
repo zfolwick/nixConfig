@@ -30,6 +30,7 @@ function mgrep() {
 # got an ending pattern, print the line, flip in range flag off, then exit.
 # otherwise, if in range, then print.
 # Preserves whitespace.
+# TODO: handle comments, other curlies, etc.
   awk -v sl="$start_line" \
       -v pp="$PATTERN" \
       -v sp="$start_pattern" \
