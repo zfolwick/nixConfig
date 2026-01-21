@@ -39,10 +39,11 @@ function mgrep() {
   PATTERN="$1"
   local FILENAME
   FILENAME="$2"
-  local NL="\n"
 
-  local method_discovered=$($(which grep) -n "$PATTERN(" "$FILENAME")
-  local start_line=$(echo $method_discovered | cut -d':' -f 1)
+  local method_discovered
+  method_discovered=$($(which grep) -n "$PATTERN(" "$FILENAME")
+  local start_line
+  start_line=$(echo "$method_discovered" | cut -d':' -f 1)
   #echo $start_line
 
   local start_pattern="{"
