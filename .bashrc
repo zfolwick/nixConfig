@@ -22,6 +22,9 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 # Load better file navigation using z.sh.
 . ./z.sh
 
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+
 NoColor="\e[0m"
 Red="\e[0;31m"
 Blue="\e[0;34m"

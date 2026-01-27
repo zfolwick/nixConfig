@@ -183,6 +183,7 @@ alias guncommit='git reset --soft HEAD~1' ## reset 1 back from the previous comm
 alias gunstage='reset HEAD -- "$@" && git log -1 HEAD'  ##unstage a commit.  Try on a commit #
 alias gbranch='git branch -a'
 alias gdev='git checkout develop'
+alias gs="git status"
 
 ##text editor aliases
 function v {
@@ -267,4 +268,3 @@ UNAME=$( command -v uname)
 
 
 export EDITOR="vim"  # for ctrl-x ctrl-e
-alias gs="git status"
