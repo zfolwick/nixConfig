@@ -1,3 +1,6 @@
+function rot13 {
+  tr 'A-Za-z' 'N-ZA-Mn-za-m'
+}
 #recursively bulk replace all text found in a subdirectory
 function bed {
   text_to_search=$1
@@ -192,7 +195,26 @@ function vf {
 }
 
 function e {
-    emacs "$@"
+  case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
+      linux*)
+    printf 'emacs alias not implemented for linux\n'
+      ;;
+    darwin*)
+      /opt/homebrew/bin/emacs "$@"
+    ;;
+    msys*|cygwin*|mingw*)
+    # or possible 'bash on windows'
+    printf 'emacs alias not implemented for windows-adjacent bash implementations\n'
+      ;;
+    nt|win*)
+      printf 'emacs alias not implement for windows OS\n'
+      # ubuntu via WSL Windows Subsystem for Linux
+      export WHOME="/mnt/c/Users/zfolw/"
+      ;;
+    *)
+    printf 'unknown OS\n'
+      ;;
+  esac
 }
 
 function nv {
@@ -222,27 +244,29 @@ alias ctags="`brew --prefix`/bin/ctags"
 
 UNAME=$( command -v uname)
 
-case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
-    linux*)
-  printf 'linux\n'
-    ;;
-  darwin*)
-  printf 'darwin\n'
-  ;;
-  msys*|cygwin*|mingw*)
-  # or possible 'bash on windows'
-  printf 'windows\n'
-    ;;
-  nt|win*)
-    printf 'windows\n'
-    # ubuntu via WSL Windows Subsystem for Linux
-    export WHOME="/mnt/c/Users/zfolw/"
-    ;;
-  *)
-  printf 'unknown\n'
-    ;;
-esac
+# Keep this in case it's useful. It does nothing right now, but jeepers it's been helpful.
+# case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
+#     linux*)
+#   printf 'linux\n'
+#     ;;
+#   darwin*)
+#   printf 'darwin\n'
+#   ;;
+#   msys*|cygwin*|mingw*)
+#   # or possible 'bash on windows'
+#   printf 'windows\n'
+#     ;;
+#   nt|win*)
+#     printf 'windows\n'
+#     # ubuntu via WSL Windows Subsystem for Linux
+#     export WHOME="/mnt/c/Users/zfolw/"
+#     ;;
+#   *)
+#   printf 'unknown\n'
+#     ;;
+# esac
 
 
 export EDITOR="vim"  # for ctrl-x ctrl-e
 alias gs="git status"
+alias code='cd ~/code/ows-client'

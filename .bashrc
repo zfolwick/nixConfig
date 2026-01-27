@@ -24,10 +24,12 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 NoColor="\e[0m"
 Red="\e[0;31m"
-Blue="\e[1;34m"
+Blue="\e[0;34m"
+LBlue="\e[38;5;117m"
 Yellow="\e[0;33m"
 Green="\e[0;32m"
-PS1="\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
+LRed=
+PS1="\[$LBlue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
 
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
@@ -39,6 +41,11 @@ PS1="\[$Blue\]\w\[$Green\]\$(__git_ps1)\[$NoColor\] $ "
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+# homebrew:
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 clear
 echo $(curl -s -H "Accept: application/json" https://icanhazdadjoke.com | jq .joke)
 
