@@ -47,7 +47,6 @@ function mgrep() {
   method_discovered=$($(which grep) -n "$PATTERN(" "$FILENAME")
   local start_line
   start_line=$(echo "$method_discovered" | cut -d':' -f 1)
-  #echo $start_line
 
   local start_pattern="{"
   local end_pattern="}"
@@ -269,4 +268,3 @@ UNAME=$( command -v uname)
 
 export EDITOR="vim"  # for ctrl-x ctrl-e
 alias gs="git status"
-alias code='cd ~/code/ows-client'
