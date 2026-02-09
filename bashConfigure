@@ -25,14 +25,16 @@ function install {
 
       # install some goodies
       brew install vim \
+          neovim \
           emacs \
           curl \
           tmux \
           tree \
           tldr \
           the_silver_searcher \
+          ripgrep \
           jq \
-          tig \
+          xq \
           docker \
           z
 
