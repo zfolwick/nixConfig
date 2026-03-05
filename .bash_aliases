@@ -1,3 +1,87 @@
+echo "sourcing aliases..."
+
+wifi() {
+
+  info() {
+    cat << EOF
+interact with wifi in a simple way, because I hate how slow the mac is to bring up the stupid dialog box.
+EOF
+}
+
+  usage() {
+    cat << EOF
+
+Usage:
+  wifi --change-password "new-password" --network-name "floopy-derp"
+
+  wifi --show-password --network-name "floopy-derp"
+EOF
+}
+  
+  if [ "$#" -eq 0 ]; then
+    echo "need parameters"
+    usage
+    return 
+  fi
+local WIFI_NETWORK_NAME=""
+local SHOW_PASSWD=""
+local CHANGE_PASSWD=""
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -n|--network-name)
+        shift
+        WIFI_NETWORK_NAME="$1"
+        shift
+        ;;
+      -s|--show-password)
+        SHOW_PASSWD="true"
+        shift
+        ;;
+      -c|--change-password)
+        CHANGE_PASSWD="true"
+        shift
+        NEW_PASSWD="$1"
+        shift
+        ;;
+      -h|--help)
+        info
+        usage
+        return
+        ;;
+        *)
+        echo "Unknown arg: $1"
+        return
+        ;;
+      esac
+  done
+
+  [[ -z $WIFI_NETWORK_NAME ]] && echo "need a wifi network name" && usage && return
+
+  if [[ -n $SHOW_PASSWD ]] && [ $SHOW_PASSWD == "true" ]; then
+    if [ "$(uname -a | cut -f 1 -d' ')" == "Darwin" ]; then
+      security find-generic-password -wa "$WIFI_NETWORK_NAME"
+    fi
+
+    return
+  fi
+
+  if [[ -n $CHANGE_PASSWD ]] && [ $CHANGE_PASSWD == "true" ]; then
+    if [ "$(uname -a | cut -f 1 -d' ')" == "Darwin" ]; then
+      # 1. Delete old password from Keychain (replace "NetworkName" with your Wi-Fi name)
+      security delete-generic-password -D "AirPort network password" -a "$WIFI_NETWORK_NAME" > /dev/null
+  
+      # 2. Connect to the network (prompts for new password, or use networksetup)
+      networksetup -setairportnetwork en0 "$WIFI_NETWORK_NAME" "$NEW_PASSWD"
+    fi
+  fi
+
+}
+
+function c2r {
+    #https://unix.stackexchange.com/questions/84951/copy-markdown-input-to-the-clipboard-as-rich-text
+    pbpaste | pandoc -sf markdown+smart --template=custom-template.rtf -t rtf | pbcopy
+}
+
 function rot13 {
   tr 'A-Za-z' 'N-ZA-Mn-za-m'
 }
