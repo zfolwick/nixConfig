@@ -88,6 +88,9 @@ copy_dotfiles() {
     mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
   fi
+
+  mkdir -p ~/.config
+  ln -svf $(PWD)/nvim ~/.config
 }
 
 if [[ $1 == "install" || -z $1 ]]; then

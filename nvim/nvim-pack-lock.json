@@ -1,0 +1,68 @@
+{
+  "plugins": {
+    "any-jump.vim": {
+      "rev": "f95674d9a4251ac02f452d5f1861e4422f4652c7",
+      "src": "https://github.com/pechorin/any-jump.vim"
+    },
+    "blink.cmp": {
+      "rev": "1a5607f90c8804cc13ea94a3ec6ea614141609bf",
+      "src": "https://github.com/Saghen/blink.cmp"
+    },
+    "diagram.nvim": {
+      "rev": "84fe677aa940605ef248f36c0ea23561690c95eb",
+      "src": "https://github.com/3rd/diagram.nvim"
+    },
+    "fzf": {
+      "rev": "e5cd7f0a3a73ef598267c1e9f29b0fe9a80925ab",
+      "src": "https://github.com/junegunn/fzf"
+    },
+    "fzf.vim": {
+      "rev": "3725f364ccd25b85a91970720ba9bc2931861910",
+      "src": "https://github.com/junegunn/fzf.vim"
+    },
+    "markdown.nvim": {
+      "rev": "eec00fbfd7273cdfa0a1154dbef0bb983641eaf8",
+      "src": "https://github.com/MeanderingProgrammer/markdown.nvim"
+    },
+    "mason.nvim": {
+      "rev": "9e25c98d4826998460926f8c5c2284848d80ae89",
+      "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "mini.pick": {
+      "rev": "c8f4ff0251ccb8c6a993ee0dee4e06d9c21a4b99",
+      "src": "https://github.com/echasnovski/mini.pick"
+    },
+    "nvim": {
+      "rev": "84336e08415858f6d835835e81a4f79e585463c6",
+      "src": "https://github.com/catppuccin/nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "4d3b3bb8815fbe37bcaf3dbdb12a22382bc11ebe",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-surround": {
+      "rev": "c271c9082886a24866353764cf96c9d957e95b2b",
+      "src": "https://github.com/kylechui/nvim-surround"
+    },
+    "nvim-treesitter": {
+      "rev": "42fc28ba918343ebfd5565147a42a26580579482",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "oil.nvim": {
+      "rev": "bbad9a76b2617ce1221d49619e4e4b659b3c61fc",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "orgmode": {
+      "rev": "eff6b77815036651a94564a04aac6d20cd86b6c9",
+      "src": "https://github.com/nvim-orgmode/orgmode"
+    },
+    "pandoc.nvim": {
+      "rev": "c6b447bf86e0d5d1f87f73105e035e240dae5002",
+      "src": "https://github.com/aspeddro/pandoc.nvim"
+    },
+    "vague.nvim": {
+      "rev": "c9bdc33539c7a6260000326c4da6b2e7ab428079",
+      "src": "https://github.com/vague2k/vague.nvim"
+    }
+  }
+}
