@@ -1,5 +1,145 @@
 echo "sourcing aliases..."
 
+func_lint () {
+  FUNCTION_NAME="${FUNCNAME[0]}"
+  description () {
+    echo "Check functions missing <func>_description and/or <func>_usage"
+  }
+
+  usage () {
+    echo "usage: $FUNCTION_NAME path/to/script.sh"
+    echo 
+    echo "Returns:
+    [func-name] [0|1] [0|1]"
+    echo "Where the first column after the function name represents whether it has a description (0 for no, 1 for yes)"
+    echo "and the second column after the function name represents whether a usage function is defined (0 = no, 1 = yes)"
+  }
+  
+  if [[ $# -lt 1 ]]; then
+    usage
+    return 1
+  fi
+  
+  script=$1
+  
+  # Load the script so its functions are in the environment
+  # shellcheck disable=SC1090
+  . "$script"
+  
+  funcs=()
+  
+  # If you have lf, use it to list functions
+  if lf "$1">/dev/null 2>&1; then
+    while IFS= read -r f; do
+      [[ -n "$f" ]] && funcs+=( "$f" ) 
+    done < <(lf "$1")
+  else
+    # Fallback: use declare -F
+    while IFS= read -r f; do
+      [[ -n "$f" ]] && funcs+=( "$f" )
+    done < <(bash -c ". "$1" > /dev/null; declare -F | \awk '{print \$3}'")
+  fi
+
+  missing=0
+  
+  for f in "${funcs[@]}"; do
+    local line="$f"
+
+    if type "$f" | grep "function description ()" > /dev/null; then
+      line="$line 1"
+    else
+      line="$line 0"
+    fi
+  
+    if type "$f" | grep "function usage ()" > /dev/null; then
+      line="$line 1"
+    else
+      line="$line 0"
+    fi
+  done
+
+
+
+  unset FUNTION_NAME
+  # exit non-zero if anything missing
+  if (( missing > 0 )); then
+    return 1
+  fi
+}
+
+lf () {
+  description () {
+    echo "lists the functions in bash file"
+  }
+
+  usage () {
+    cat << EOF
+Usage:
+lf FILENAME
+EOF
+  }
+
+  [[ "$#" -eq 0 ]] && echo "need a filename" && description && usage && return 1
+
+  bash -c ". "$1" > /dev/null; declare -F | \awk '{print \$3}'"
+}
+
+shebang() {
+  description () {
+    echo "adds a shebang \"#!/usr/bin/env bash\" to the first line of a file"
+  }
+
+  usage () {
+    echo "shebang [bash|c|go|node] FILENAME"
+    echo
+    echo "FILENAME:"
+    echo   "#!/usr/bin/env bash"
+    echo 
+    echo "This does not add any other text to the file. All it does is prepend the shebang line."
+  }
+
+  [[ "$#" -eq 0 ]] && description && usage && return 1
+
+  SCRIPT_LANG="$1"
+  FILE="$2"
+  [[ ! -x $FILE ]] && EXISTS="false"
+
+  set -e
+
+  case $SCRIPT_LANG in
+    bash)
+      if [ "$EXISTS" == "false" ] || [ ! -s "$FILE" ]; then
+        echo '#!/usr/bin/env bash' > "$FILE"
+      else 
+        gsed -i '1i \#!/usr/bin/env bash' "$FILE"
+      fi
+      ;;
+    c)
+      if [ "$EXISTS" == "false" ] || [ ! -s "$FILE" ]; then
+        echo '//usr/bin/env gcc "$0" -o /tmp/a; /tmp/a "$@"; exit $?' > "$FILE"
+      else 
+        gsed -i '1i \//usr/bin/env gcc "$0 -o /tmp/a; /tmp/a "$@"; exit $?' "$FILE"
+      fi
+      ;;
+    go)
+      if [ "$EXISTS" == "false" ] || [ ! -s "$FILE" ]; then
+        echo '/*usr/bin/env go run "$0" "$@"; exit $? #*/' > $FILE
+      else 
+        gsed -i '1i \/*usr/bin/env go run "$0" "$@"; exit $? #*/' "$FILE"
+      fi
+      ;;
+    node)
+      if [ "$EXISTS" == "false" ] || [ ! -s "$FILE" ]; then
+        echo '#!/usr/bin/env node' > "$FILE"
+      else 
+        gsed -i '1i \#!/usr/bin/env node' "$FILE"
+      fi
+      ;;
+  esac
+
+}
+alias sb='shebang'
+
 wifi() {
 
   info() {
@@ -10,6 +150,11 @@ EOF
 
   usage() {
     cat << EOF
+
+      -h|--help               This menu
+      -n|--network-name       Set the network name for the wifi
+      -s|--show-password      Set whether to show the password
+      -c|--change-password    Sets whether to change the password
 
 Usage:
   wifi --change-password "new-password" --network-name "floopy-derp"
@@ -228,7 +373,7 @@ alias uu='cd ../.. && ls'
 alias uuu='cd ../../.. && ls'
 alias uuuu='cd ../../../.. && ls'
 if [[ $(uname) ==  "Darwin" ]]; then
-  alias ls='ls -G'
+  alias ls='/bin/ls'
 else
   alias ls='ls --color=auto'
 fi
@@ -246,11 +391,11 @@ function glb {
 }
 
 function gco {
-    git checkout "$1" && glb && gst
+    git checkout "$1" && glb main && gst
 }
 
 function gcob {
-    git checkout -b "$1" && glb
+    git checkout -b "$1" && glb main
 }
 
 function gcm {
@@ -268,6 +413,7 @@ alias gunstage='reset HEAD -- "$@" && git log -1 HEAD'  ##unstage a commit.  Try
 alias gbranch='git branch -a'
 alias gdev='git checkout develop'
 alias gs="git status"
+alias gssh="ssh-keygen -t ed25519 -C 'zfolwick@gmail.com'"
 
 ##text editor aliases
 function v {
@@ -352,3 +498,10 @@ UNAME=$( command -v uname)
 
 
 export EDITOR="vim"  # for ctrl-x ctrl-e
+
+ws() { curl -s https://zfolwick.github.io/$1 | xq 
+}
+
+wstxt() { curl -s "$1" | xq -x '*/body/*[not(self::script)]'
+}
+echo done
