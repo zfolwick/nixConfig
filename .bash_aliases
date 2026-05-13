@@ -1,5 +1,54 @@
 echo "sourcing aliases..."
 
+skh () {
+  info () {
+    echo "Helps with ssh keys for interacting with github"
+  }
+
+  usage () {
+    cat <<EOF
+
+  -h,--help            this menu
+  ls,--list            lists all ssh key files in the .ssh/ directory
+  cat FILE             writes the .public key to stdout 
+
+EOF
+  }
+
+  [[ "$@" == *"-h"* ]] && info && usage && return 0
+
+  [[ "$#" == 0 ]] && echo "need arguments" && usage && return 0
+
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      ls | --list)
+        ls ~/.ssh/*.pub | $(which cat)
+        shift
+        ;;
+       cat)
+        shift 
+        [[ -z "$1" ]] && echo "need a file path" && return 1
+
+        [[ ! -f "$1" ]] && echo "so such file: $1" && return 1
+        [[ ! -e "$1" ]] && echo "no such file: $1" && return 1
+        [[ ! -s "$1" ]] && echo "empty file: $1" && return 1
+
+        return cat "$1"
+        ;;
+      help)
+        info
+        usage
+        return 0
+        ;;
+      *)
+        echo "unknown argument [$1]"
+        return 1
+        ;;
+    esac
+  done
+}
+
+
 func_lint () {
   FUNCTION_NAME="${FUNCNAME[0]}"
   description () {
