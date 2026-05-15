@@ -8,11 +8,23 @@ skh () {
   usage () {
     cat <<EOF
 
-  -h,--help            this menu
-  ls,--list            lists all ssh key files in the .ssh/ directory
-  cat FILE             writes the .public key to stdout 
+  -h,--help           this menu
+  ls                  lists all ssh key files in the .ssh/ directory
+  cat FILE            writes the .public key to stdout 
+  create FILE USER    creates a new ssh public and private key with name FILE
+  fix FILE            updates file permissions
 
 EOF
+  }
+
+  check_file () {
+    [[ -z "$1" ]]  && return 1
+    [[ ! -f "$1" ]] && return 1
+    [[ ! -e "$1" ]] && return 1
+    [[ ! -s "$1" ]] && return 1
+    [[ ! "$1" == *".pub" ]] && return 1
+
+    return 0
   }
 
   [[ "$@" == *"-h"* ]] && info && usage && return 0
@@ -21,19 +33,42 @@ EOF
 
   while [ "$#" -gt 0 ]; do
     case "$1" in
+      fix)
+        shift
+
+        if ! check_file "$1"; then
+          echo "invalid file: $1"
+          usage
+          return 1
+        fi
+
+        chmod 600 ~/.ssh/"$1"
+        chmod 644 ~/.ssh/"$1".pub
+        return 0
+        ;;
+      create)
+        shift
+        [[ "$#" -lt 2 ]] && echo "need arguments." && usage && return 1
+
+        [[ -z "$1" ]]  && echo "need file name" && usage && return 1
+        [[ -z "$2" ]]  && echo "need email address" && usage && return 1
+
+        ssh-keygen -t ed25519 -C "$2" -f ~/.ssh/"$1" -N ""
+
+        ;;
       ls | --list)
         ls ~/.ssh/*.pub | $(which cat)
         shift
         ;;
        cat)
         shift 
-        [[ -z "$1" ]] && echo "need a file path" && return 1
+        if ! check_file "$@"; then
+          echo "invalid file: $@"
+          return 1
+        fi
 
-        [[ ! -f "$1" ]] && echo "so such file: $1" && return 1
-        [[ ! -e "$1" ]] && echo "no such file: $1" && return 1
-        [[ ! -s "$1" ]] && echo "empty file: $1" && return 1
-
-        return cat "$1"
+        cat "$1"
+        return $?
         ;;
       help)
         info

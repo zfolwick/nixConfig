@@ -1,4 +1,8 @@
-vim.o.number = true
+local set = vim.opt
+---------------- vim options  ----------------
+set.number = true  -- shows line numbers
+
+-- vim.o.number = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.expandtab = true
@@ -75,9 +79,8 @@ vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 -- packages
 vim.pack.add({
   { src = "https://github.com/catppuccin/nvim" }, -- theme
-  { src = "https://github.com/stevearc/oil.nvim" }, -- file chooser
   { src = "https://github.com/echasnovski/mini.pick" },
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", opt = false },
   { src = "https://github.com/mason-org/mason.nvim" }, -- package manager
   { src = "https://github.com/neovim/nvim-lspconfig" }, -- neovims default lsp
   { src = "https://github.com/MeanderingProgrammer/markdown.nvim" }, -- markdown renderer
@@ -127,17 +130,20 @@ vim.lsp.config("lua_ls", {
 	}
 })
 require('lspconfig').gh_actions_ls.setup({})
-vim.lsp.enable({ "lua_ls", "eslint", "javascript", "blink", "bashls" })
+-- vim.lsp.enable({ "lua_ls", "eslint", "javascript", "blink", "bashls" })
 
 -- /LSP SECTION
 
 require("nvim-surround").setup({})
 require "mini.pick".setup()
+vim.opt.runtimepath:prepend("/opt/homebrew/lib/nvim-parsers")
 require "nvim-treesitter.configs".setup({
-	ensure_installed = { "typescript", "javascript", "bash" },
-	highlight = { enable = true }
+	ensure_installed = { "typescript", "javascript", "bash", "python" },
+	highlight = { enable = true },
+  -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
+  parser_install_dir = "/opt/homebrew/lib/nvim-parsers",
 })
-require "oil".setup()
+
 require "mason".setup()
 
 require('render-markdown').setup({

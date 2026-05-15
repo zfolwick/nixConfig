@@ -26,6 +26,7 @@ function install {
       # install some goodies
       brew install vim \
           neovim \
+          node \
           emacs \
           curl \
           tmux \
@@ -44,6 +45,7 @@ function install {
     apt-get upgrade -y
     apt-get install -y htop \
                  tree \
+                 node \
                  vim \
                  emacs \
                  curl \
@@ -58,29 +60,35 @@ function install {
   fi
   #install z-script for better managing
   wget https://raw.githubusercontent.com/rupa/z/master/z.sh
+
+  # For neovim
+  npm install -g tree-sitter-cli
 }
 
 # now that git is installed, begin bringing in config files.
+
+mkdir -p ~/.config
 
 copy_dotfiles() {
   # Copy config files over to ~/ directory
   # use symlinks because we can source easier
   if [[ $(uname) == "Darwin" ]]; then
-    ln -svf $(PWD)/.bash* ~/
-    ln -svf $(PWD)/.tmux ~/
-    ln -svf $(PWD)/.emacs.d ~/
-    ln -svf $(PWD)/.vim ~/
-    ln -svf $(PWD)/.vimrc ~/
-    ln -svf $(PWD)/.tmux.conf ~/
-    ln -svf $(PWD)/.git-prompt.sh ~/
+    cp -r $(PWD)/.bashrc ~/
+    cp -r $(PWD)/.bash_aliases ~/
+    cp -r $(PWD)/.tmux ~/
+    cp -r $(PWD)/.emacs.d ~/
+    cp -r $(PWD)/.vim ~/
+    cp -r $(PWD)/.vimrc ~/
+    cp -r $(PWD)/.tmux.conf ~/
+    cp -r $(PWD)/.git-prompt.sh ~/
   else
-    ln -svrf .bash* ~/
-    ln -svrf .tmux ~/
-    ln -svrf .emacs.d ~/
-    ln -svrf .vim ~/
-    ln -svrf .vimrc ~/
-    ln -svrf .tmux.conf ~/
-    ln -svrf .git-prompt.sh ~/
+    cp -r .bash* ~/
+    cp -r .tmux ~/
+    cp -r .emacs.d ~/
+    cp -r .vim ~/
+    cp -r .vimrc ~/
+    cp -r .tmux.conf ~/
+    cp -r .git-prompt.sh ~/
   fi
   ## Vim
   if [ -d ~/.vim/autoload ] && [ -d ~/.vim/bundle ]; then
@@ -90,7 +98,7 @@ copy_dotfiles() {
   fi
 
   mkdir -p ~/.config
-  ln -svf $(PWD)/nvim ~/.config
+  cp -r $(PWD)/nvim ~/.config
 }
 
 if [[ $1 == "install" || -z $1 ]]; then
