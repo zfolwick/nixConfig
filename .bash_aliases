@@ -8,11 +8,11 @@ skh () {
   usage () {
     cat <<EOF
 
-  -h,--help           this menu
-  ls                  lists all ssh key files in the .ssh/ directory
-  cat FILE            writes the .public key to stdout 
-  create FILE USER    creates a new ssh public and private key with name FILE
-  fix FILE            updates file permissions
+  -h,--help                   this menu
+  ls                          lists all ssh key files in the .ssh/ directory
+  cat FILE                    writes the .public key to stdout 
+  create FILE SCHEME USER     creates a new ssh public and private key with name FILE and either rsa or ed25519 encryption.
+  fix FILE                    updates file permissions
 
 EOF
   }
@@ -33,6 +33,13 @@ EOF
 
   while [ "$#" -gt 0 ]; do
     case "$1" in
+      copy)
+        shift
+        [[ "$1" == "" ]] && echo "pass a full path to file" && return 1
+
+        skh cat "$1" | pbcopy
+        return 0
+        ;;
       fix)
         shift
 
@@ -48,12 +55,23 @@ EOF
         ;;
       create)
         shift
-        [[ "$#" -lt 2 ]] && echo "need arguments." && usage && return 1
+        [[ "$#" -lt 3 ]] && echo "need arguments." && usage && return 1
 
         [[ -z "$1" ]]  && echo "need file name" && usage && return 1
-        [[ -z "$2" ]]  && echo "need email address" && usage && return 1
+        [[ "$2" != "rsa" ]] && [[ "$2" != "ed25519" ]]  && echo "need encryption scheme.  valid values are 'rsa' or 'ed25519'" && usage && return 1
+        [[ -z "$3" ]]  && echo "need email address" && usage && return 1
 
-        ssh-keygen -t ed25519 -C "$2" -f ~/.ssh/"$1" -N ""
+        if [ "$2" == "rsa" ]; then
+          echo in the rsa block
+          ssh-keygen -t rsa -b 4096 -C "$3" -f ~/.ssh/"$1" -N ""
+
+        elif [ "$2" == "ed25519" ]; then
+          ssh-keygen -t ed25519 -C "$3" -f ~/.ssh/"$1" -N ""
+
+        else
+          echo "unknown option: $2.  choose 'rsa' or 'ed25519' encryption scheme"
+
+        fi
 
         ;;
       ls | --list)

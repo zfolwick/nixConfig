@@ -2,11 +2,24 @@
 
 # This is an initial script to automate the acquisition of software.
 
-# usage: $> sudo ./bashConfigure <--- install, copy, and source dotfiles
-# $> sudo ./bashConfigure install <--- install only the packages
-# $> sudo ./bashConfigure copy <--- copy dotfiles
-# $> sudo ./bashConfigure source <--- source dotfiles
-# add-apt-repository universe
+usage () {
+	cat << EOF
+install, copy, and source dotfiles
+
+usage: $> ./bashConfigure 		
+install 	install only the packages
+copy 		copy dotfiles
+source 		source dotfiles
+EOF
+}
+
+[[ "$#" == 0 ]] && usage && exit 1
+[[ "$1" == *"-h" ]] && usage && exit 0
+
+
+# Start by creating your code directory:
+mkdir -p ~/code/zach
+
 
 # now the packages repo is up to date, begin installing programs:
 
@@ -15,9 +28,12 @@ function install {
       echo "DARWIN WINS!"
       echo "install homebrew"
       # Check for Homebrew, install if we don't have it
-      if test ! $(which brew); then
+      if ! command -v brew; then
         echo "Installing homebrew..."
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	echo >> /Users/zacharyfolwick/.zprofile
+    	echo 'eval "$(/opt/homebrew/bin/brew shellenv zsh)"' >> /Users/zacharyfolwick/.zprofile
+    	eval "$(/opt/homebrew/bin/brew shellenv zsh)"
       fi
 
       # Update homebrew recipes
@@ -29,6 +45,7 @@ function install {
           node \
           emacs \
           curl \
+          wget \
           tmux \
           tree \
           tldr \
@@ -49,6 +66,7 @@ function install {
                  vim \
                  emacs \
                  curl \
+          	 tmux \
                  tmux \
                  silversearcher-ag \
                  docker.io \
@@ -66,7 +84,6 @@ function install {
 }
 
 # now that git is installed, begin bringing in config files.
-
 mkdir -p ~/.config
 
 copy_dotfiles() {
@@ -75,7 +92,7 @@ copy_dotfiles() {
   if [[ $(uname) == "Darwin" ]]; then
     cp -r $(PWD)/.bashrc ~/
     cp -r $(PWD)/.bash_aliases ~/
-    cp -r $(PWD)/.tmux ~/
+    cp -r $(PWD)/.tmux.conf ~/
     cp -r $(PWD)/.emacs.d ~/
     cp -r $(PWD)/.vim ~/
     cp -r $(PWD)/.vimrc ~/
@@ -116,5 +133,5 @@ fi
 
 if [[ $1 == "cs" ]]; then
   copy_dotfiles
-  source ~/.bashrc
+  echo "done.  now run '. ~/.bashrc' in your shell"
 fi
